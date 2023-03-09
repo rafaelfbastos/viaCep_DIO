@@ -33,4 +33,13 @@ class Back4appRepositoryImpl extends Back4appRepository {
     }
     return response.statusCode!;
   }
+
+  @override
+  Future<List<CepModel>> buscarTodosCep(String cep) async {
+    final response = await _dio.get("/cep");
+    final data = response.data["results"] as List;
+    return data
+        .map((e) => CepModel.fromMap(e as Map<String, dynamic>))
+        .toList();
+  }
 }
