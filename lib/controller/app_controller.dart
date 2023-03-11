@@ -11,6 +11,7 @@ class AppController extends ChangeNotifier {
   bool loading = false;
   bool hasError = false;
   String errorMensagem = "";
+  List<CepModel>? cepList;
 
   PageController pageController = PageController(initialPage: 0);
   int page = 0;
@@ -34,6 +35,7 @@ class AppController extends ChangeNotifier {
       try {
         cepModel = await _service.buscarCep(unMaskedCep);
         await _backService.salvarCep(cepModel!);
+        pegarLista();
       } on ArgumentError catch (e) {
         errorMensagem = e.message;
         hasError = true;
@@ -43,6 +45,17 @@ class AppController extends ChangeNotifier {
         notifyListeners();
       }
     }
+    _hideLoading();
+  }
+
+  pegarLista() async {
+    cepList = await _backService.buscarTodosCep();
+  }
+
+  remover(CepModel cepModel) async {
+    _showLoading();
+    await _backService.deleteCep(cepModel);
+    await pegarLista();
     _hideLoading();
   }
 

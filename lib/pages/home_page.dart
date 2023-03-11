@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:via_cep_dio/controller/app_controller.dart';
 import 'package:via_cep_dio/pages/registros_page.dart';
@@ -29,6 +30,11 @@ class _HomePageState extends State<HomePage> {
       }
       widget._controller.loading ? Loader.show(context) : Loader.hide();
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      widget._controller.pegarLista();
+    });
+
     super.initState();
   }
 
@@ -36,7 +42,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Busca Cep'),
+        title: Text(
+          'BUSCA CEP',
+          style: GoogleFonts.montserratAlternates(
+              fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.black38,
       ),
       body: Column(
         children: [
@@ -61,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.view_headline),
-                  label: "Cep Salvos",
+                  label: "CEPs Buscados",
                 ),
               ])
         ],

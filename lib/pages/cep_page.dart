@@ -4,6 +4,8 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:validatorless/validatorless.dart';
 import 'package:via_cep_dio/controller/app_controller.dart';
+import 'package:via_cep_dio/models/cep_model.dart';
+import 'package:via_cep_dio/widgets/cep_widget.dart';
 
 class CepPage extends StatelessWidget {
   const CepPage({Key? key}) : super(key: key);
@@ -52,14 +54,14 @@ class CepPage extends StatelessWidget {
                   Validatorless.min(9, "Digite um CEP válido")
                 ]),
                 style: GoogleFonts.montserratAlternates(
-                  color: const Color(0xfff404040),
+                  color: const Color(0xff404040),
                   fontSize: 18,
                 ),
-                cursorColor: Color(0xfff404040),
+                cursorColor: const Color(0xff404040),
                 keyboardType: TextInputType.number,
                 inputFormatters: [maskFormatter],
                 decoration: InputDecoration(
-                  labelStyle: TextStyle(color: Colors.black),
+                  labelStyle: const TextStyle(color: Colors.black),
                   focusedBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.black38),
                   ),
@@ -79,7 +81,7 @@ class CepPage extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xfff404040),
+              backgroundColor: const Color(0xff404040),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -101,6 +103,15 @@ class CepPage extends StatelessWidget {
                 cepEC.clear();
               }
             },
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          Visibility(
+            visible: context.watch<AppController>().cepModel != null,
+            child: CepWidget(
+                cepModel: context.watch<AppController>().cepModel ??
+                    CepModel.vazio()),
           )
         ]),
       ),

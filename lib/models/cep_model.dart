@@ -28,6 +28,20 @@ class CepModel {
     required this.siafi,
   });
 
+  factory CepModel.vazio() {
+    return CepModel(
+        cep: "cep",
+        logradouro: "logradouro",
+        complemento: "complemento",
+        bairro: "bairro",
+        localidade: "localidade",
+        uf: "uf",
+        ibge: "ibge",
+        gia: "gia",
+        ddd: "ddd",
+        siafi: "siafi");
+  }
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'cep': cep,
