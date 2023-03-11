@@ -17,11 +17,17 @@ class Back4appRepositoryImpl extends Back4appRepository {
   }
 
   @override
-  Future<CepModel> buscarCep(String cep) async {
+  Future<CepModel?> buscarCep(String cep) async {
     final url = "/cep?where={ \"cep\":\"$cep\"}";
     final response = await _dio.get(url);
-    final data = response.data["results"][0] as Map<String, dynamic>;
-    return CepModel.fromMap(data);
+    final dataList = response.data["results"] as List;
+
+    if (dataList.isNotEmpty) {
+      final data = dataList[0] as Map<String, dynamic>;
+      return CepModel.fromMap(data);
+    } else {
+      return null;
+    }
   }
 
   @override
@@ -35,11 +41,17 @@ class Back4appRepositoryImpl extends Back4appRepository {
   }
 
   @override
-  Future<List<CepModel>> buscarTodosCep(String cep) async {
+  Future<List<CepModel>> buscarTodosCep() async {
     final response = await _dio.get("/cep");
     final data = response.data["results"] as List;
     return data
         .map((e) => CepModel.fromMap(e as Map<String, dynamic>))
         .toList();
+  }
+
+  @override
+  Future<int> deleteCep(CepModel cepModel) async {
+    final response = await _dio.delete("/cep/${cepModel.objectId ?? ""}");
+    return response.statusCode ?? 0;
   }
 }

@@ -75,7 +75,7 @@ void main() {
     expect(await repo.salvarCep(cep), 201);
   });
 
-  test("ler backend", () async {
+  test("ler cep do backend", () async {
     await dotenv.load(fileName: ".env");
     final repo = Back4appRepositoryImpl();
     final cep = CepModel(
@@ -91,5 +91,30 @@ void main() {
         siafi: "3413");
 
     expect(await repo.buscarCep("42800-051"), cep);
+  });
+  test("ler listabackend lista", () async {
+    await dotenv.load(fileName: ".env");
+    final repo = Back4appRepositoryImpl();
+    final cep = CepModel(
+        cep: "42800-051",
+        logradouro: "Rua Adelina de Sá",
+        complemento: "",
+        bairro: "Centro",
+        localidade: "Camaçari",
+        uf: "BA",
+        ibge: "2905701",
+        gia: "",
+        ddd: "71",
+        siafi: "3413");
+    var listCep = await repo.buscarTodosCep();
+    expect(listCep.first, cep);
+  });
+
+  test("delete backend", () async {
+    await dotenv.load(fileName: ".env");
+    final repo = Back4appRepositoryImpl();
+    final cep = await repo.buscarCep("42800-051");
+
+    expect(await repo.deleteCep(cep!), 200);
   });
 }

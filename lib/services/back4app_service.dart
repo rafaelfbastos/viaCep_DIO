@@ -1,6 +1,6 @@
-import 'package:via_cep_dio/models/cep_model.dart';
+import '../models/cep_model.dart';
 
-abstract class Back4appRepository {
+abstract class Back4appService {
   Future<CepModel?> buscarCep(String cep);
   Future<List<CepModel>> buscarTodosCep();
   Future<int> salvarCep(CepModel cepModel);
